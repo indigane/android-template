@@ -113,7 +113,7 @@ jobs:
             center_y=$((${size}/2))
             edge_x=$((${size}/2)) # For a circle touching the top-middle edge, this is same as center_x
             edge_y=0
-            convert -size "${size}x${size}" xc:black -fill white -draw "circle ${center_x},${center_y} ${edge_x},${edge_y}" "$temp_mask_file"
+            convert -size "${size}x${size}" xc:none -fill white -draw "circle ${center_x},${center_y} ${edge_x},${edge_y}" -alpha extract "$temp_mask_file"
             if [ $? -ne 0 ]; then
               echo "Error during ${density} icon generation at mask creation step" >&2
               exit 1
