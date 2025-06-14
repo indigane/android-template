@@ -13,6 +13,9 @@ on:
         description: 'Commit message for the icon update'
         required: true
         default: 'feat(assets): generate new android icons'
+  push:
+    branches:
+      - '*'
 
 jobs:
   build-icons:
@@ -41,8 +44,8 @@ jobs:
             exit 1
           fi
 
-          sizes=(${{ env.sizes }})
-          densities=(${{ env.densities }})
+          sizes=${{ env.sizes }}
+          densities=${{ env.densities }}
 
           echo "Generating square icons..."
           for i in ${!sizes[@]}; do
@@ -62,8 +65,8 @@ jobs:
       - name: Generate Round Icons
         run: |
           source_file="${{ github.event.inputs.source_image }}"
-          sizes=(${{ env.sizes }})
-          densities=(${{ env.densities }})
+          sizes=${{ env.sizes }}
+          densities=${{ env.densities }}
 
           echo "Generating round icons..."
           for i in ${!sizes[@]}; do
