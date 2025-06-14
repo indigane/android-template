@@ -75,6 +75,7 @@ jobs:
       # 4. Generate round icons
       - name: Generate Round Icons
         run: |
+          set -e # Ensures script exits immediately on error
           source_file="${{ github.event.inputs.source_image || 'test_icon.png' }}"
           if [ -z "$source_file" ]; then
             echo "Error: source_image input was empty or not correctly passed to the script (source_file variable is empty)."
@@ -101,6 +102,10 @@ jobs:
 
             # 1. Resize the source image and ensure it has an alpha channel
             convert "$source_file" -resize "${size}x${size}" -alpha set "$temp_resized_file"
+            if [ $? -ne 0 ]; then
+              echo "Error during ${density} icon generation at resize step for $source_file" >&2
+              exit 1
+            fi
 
             # 2. Create a grayscale circular mask (black background, white circle)
             # Using $(()) for bash arithmetic to ensure correct calculation for center/edge points
@@ -109,10 +114,18 @@ jobs:
             edge_x=$((${size}/2)) # For a circle touching the top-middle edge, this is same as center_x
             edge_y=0
             convert -size "${size}x${size}" xc:black -fill white -draw "circle ${center_x},${center_y} ${edge_x},${edge_y}" "$temp_mask_file"
+            if [ $? -ne 0 ]; then
+              echo "Error during ${density} icon generation at mask creation step" >&2
+              exit 1
+            fi
 
             # 3. Composite the resized image with the mask
             # This copies the white areas of the mask into the alpha channel of the resized image
             convert "$temp_resized_file" "$temp_mask_file" -compose CopyOpacity -composite "$output_file"
+            if [ $? -ne 0 ]; then
+              echo "Error during ${density} icon generation at composite step" >&2
+              exit 1
+            fi
 
             # 4. Clean up temporary files
             rm "$temp_resized_file" "$temp_mask_file"
