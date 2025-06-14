@@ -23,7 +23,8 @@ on:
 jobs:
   build-icons:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       # 1. Check out the repository's code to the runner
       - name: Check out repository
