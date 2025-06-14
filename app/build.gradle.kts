@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace = "home.replace_me"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "home.replace_me"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
