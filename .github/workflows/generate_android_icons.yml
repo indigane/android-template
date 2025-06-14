@@ -8,7 +8,7 @@ on:
       source_image:
         description: 'Path to the source icon image (e.g., assets/icon.png)'
         required: true
-        default: 'design/source-icon.png'
+        default: 'test_icon.png'
       commit_message:
         description: 'Commit message for the icon update'
         required: true
@@ -50,6 +50,10 @@ jobs:
           sizes=${{ env.sizes }}
           densities=${{ env.densities }}
 
+          if [ -z "$source_file" ]; then
+            echo "Error: source_image input was empty or not correctly passed to the script (source_file variable is empty)."
+            exit 1
+          fi
           echo "Generating square icons..."
           for i in ${!sizes[@]}; do
             size=${sizes[$i]}
@@ -71,6 +75,14 @@ jobs:
           sizes=${{ env.sizes }}
           densities=${{ env.densities }}
 
+          if [ -z "$source_file" ]; then
+            echo "Error: source_image input was empty or not correctly passed to the script (source_file variable is empty)."
+            exit 1
+          fi
+          if [ ! -f "$source_file" ]; then
+            echo "Error: Source file not found at $source_file"
+            exit 1
+          fi
           echo "Generating round icons..."
           for i in ${!sizes[@]}; do
             size=${sizes[$i]}
@@ -94,6 +106,14 @@ jobs:
       - name: Generate Monochrome Icon
         run: |
           source_file="${{ github.event.inputs.source_image }}"
+          if [ -z "$source_file" ]; then
+            echo "Error: source_image input was empty or not correctly passed to the script (source_file variable is empty)."
+            exit 1
+          fi
+          if [ ! -f "$source_file" ]; then
+            echo "Error: Source file not found at $source_file"
+            exit 1
+          fi
           output_dir="${{ env.android_res_path }}/drawable"
           mkdir -p "$output_dir"
 
