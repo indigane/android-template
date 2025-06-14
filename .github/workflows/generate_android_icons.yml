@@ -93,13 +93,29 @@ jobs:
             output_dir="${{ env.android_res_path }}/mipmap-${density}"
             output_file="$output_dir/ic_launcher_round.png"
 
-            # Create a circular mask and apply it to the resized image
-            convert "$source_file" -resize "${size}x${size}" \
-              \( +clone -alpha extract \
-                 -draw "fill black polygon 0,0 0,${size} ${size},${size} ${size},0 fill white circle ${size/2},${size/2} ${size/2},0" \
-                 \( +clone -flip \) -compose Multiply -composite \
-                 \( +clone -flip \) -compose Multiply -composite \
-              \) -alpha off -compose CopyOpacity -composite "$output_file"
+            # Original: convert "$source_file" -resize "${size}x${size}"             #   \( +clone -alpha extract             #      -draw "fill black polygon 0,0 0,${size} ${size},${size} ${size},0 fill white circle ${size/2},${size/2} ${size/2},0"             #      \( +clone -flip \) -compose Multiply -composite             #      \( +clone -flip \) -compose Multiply -composite             #   \) -alpha off -compose CopyOpacity -composite "$output_file"
+
+            # New approach:
+            temp_resized_file="temp_resized_${density}.png"
+            temp_mask_file="temp_mask_${density}.png"
+
+            # 1. Resize the source image and ensure it has an alpha channel
+            convert "$source_file" -resize "${size}x${size}" -alpha set "$temp_resized_file"
+
+            # 2. Create a grayscale circular mask (black background, white circle)
+            # Using $(()) for bash arithmetic to ensure correct calculation for center/edge points
+            center_x=$((${size}/2))
+            center_y=$((${size}/2))
+            edge_x=$((${size}/2)) # For a circle touching the top-middle edge, this is same as center_x
+            edge_y=0
+            convert -size "${size}x${size}" xc:black -fill white -draw "circle ${center_x},${center_y} ${edge_x},${edge_y}" "$temp_mask_file"
+
+            # 3. Composite the resized image with the mask
+            # This copies the white areas of the mask into the alpha channel of the resized image
+            convert "$temp_resized_file" "$temp_mask_file" -compose CopyOpacity -composite "$output_file"
+
+            # 4. Clean up temporary files
+            rm "$temp_resized_file" "$temp_mask_file"
 
             echo "Created $output_file"
           done
