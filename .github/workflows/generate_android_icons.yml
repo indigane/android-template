@@ -130,7 +130,3 @@ jobs:
         with:
           commit_message: ${{ github.event.inputs.commit_message || 'feat(assets): update generated Android icons [CI]' }}
           file_pattern: ${{ env.android_res_path }}/**/*.png # Pattern to match the new icons
-          repository: .
-          commit_user_name: "GitHub Actions Bot"
-          commit_user_email: "actions-bot@github.com"
-          commit_author: "GitHub Actions Bot <actions-bot@github.com>"
