@@ -125,9 +125,18 @@ jobs:
           convert "$source_file" -resize "108x108" -gravity center -colorspace gray -threshold 50% +transparent "#000000" "$output_dir/ic_launcher_monochrome.png"
           echo "Created $output_dir/ic_launcher_monochrome.png"
 
+      - name: Set Commit Message
+        shell: bash
+        run: |
+          if [ -n "${{ github.event.inputs.commit_message }}" ]; then
+            echo "COMMIT_MSG=${{ github.event.inputs.commit_message }}" >> $GITHUB_ENV
+          else
+            echo "COMMIT_MSG=feat(assets): update generated Android icons [CI]" >> $GITHUB_ENV
+          fi
+
       # 6. Commit the generated files to the repository
       - name: Commit and Push new icons
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Temporary test commit message"
+          commit_message: ${{ env.COMMIT_MSG }}
           file_pattern: ${{ env.android_res_path }}/**/*.png # Pattern to match the new icons
