@@ -5,6 +5,7 @@ on:
     branches: [ main, master, develop ] # Adjust branch names as per your repository
   pull_request:
     branches: [ main, master, develop ] # Adjust branch names as per your repository
+  workflow_dispatch: {}
 
 jobs:
   build:
