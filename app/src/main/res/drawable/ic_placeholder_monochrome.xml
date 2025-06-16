@@ -6,11 +6,11 @@
   <group android:gravity="center">
     <text
         android:text="replace me"
-        android:textSize="14"
+        android:textSize="14sp"
         android:textColor="#000000"
         android:fontFamily="sans-serif"
         android:textAlignment="center"
-        android:x="54"
-        android:y="58" />
+        android:x="54dp"
+        android:y="58dp" />
   </group>
 </vector>
