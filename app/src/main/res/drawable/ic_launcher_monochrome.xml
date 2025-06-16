@@ -2,10 +2,14 @@
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
-    android:viewportHeight="108">
-  <group android:gravity="center">
+    android:viewportHeight="108"
+>
     <path
-        android:fillColor="#FF808080"
-        android:pathData="M54,20 A34,34 0 1,1 54,88 A34,34 0 1,1 54,20" />
-  </group>
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M0,0h108v108H0z"
+    />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M52,52h52v52H52z"
+    />
 </vector>
