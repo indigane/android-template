@@ -99,11 +99,19 @@ jobs:
             # New approach:
             temp_resized_file="temp_resized_${density}.png"
             temp_mask_file="temp_mask_${density}.png"
+            temp_trimmed_source_file="temp_trimmed_source_${density}.png"
 
-            # 1. Resize the source image and ensure it has an alpha channel
-            convert "$source_file" -resize "${size}x${size}" -alpha set "$temp_resized_file"
+            # Trim transparency from the source image
+            convert "$source_file" -trim +repage "$temp_trimmed_source_file"
             if [ $? -ne 0 ]; then
-              echo "Error during ${density} icon generation at resize step for $source_file" >&2
+              echo "Error during ${density} icon generation at trim step for $source_file" >&2
+              exit 1
+            fi
+
+            # 1. Resize the (trimmed) source image and ensure it has an alpha channel
+            convert "$temp_trimmed_source_file" -resize "${size}x${size}" -alpha set "$temp_resized_file"
+            if [ $? -ne 0 ]; then
+              echo "Error during ${density} icon generation at resize step for $temp_trimmed_source_file" >&2
               exit 1
             fi
 
@@ -128,7 +136,7 @@ jobs:
             fi
 
             # 4. Clean up temporary files
-            rm "$temp_resized_file" "$temp_mask_file"
+            rm "$temp_trimmed_source_file" "$temp_resized_file" "$temp_mask_file"
 
             echo "Created $output_file"
           done
