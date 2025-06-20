@@ -3,6 +3,21 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+fun getGitUserSuffix(): String {
+    try {
+        val process = ProcessBuilder("git", "remote", "get-url", "origin").start()
+        val remoteUrl = process.inputStream.bufferedReader().readText().trim()
+        process.waitFor()
+        // Regex for git@github.com:owner/repo and https://github.com/owner/repo capturing the owner
+        val regex = Regex("[:/]([^/]+)/[^/]+\\.git$")
+        val matchResult = regex.find(remoteUrl)
+        return matchResult?.groups?.get(1)?.value?.toLowerCase()?.let { ".$it" } ?: ""
+    } catch (e: Exception) {
+        println("Could not get git user: ${e.message}")
+        return ".local"
+    }
+}
+
 android {
     namespace = "home.replace_me"
     compileSdk = 35
@@ -15,13 +30,21 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            if (System.getenv("KEYSTORE_PATH") != null) {
+                storeFile file(System.getenv("KEYSTORE_PATH"))
+                storePassword System.getenv("KEYSTORE_PASSWORD")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
     buildTypes {
         release {
-            isMinifyEnabled = false // Set to true for production releases with ProGuard/R8
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro" // Create this file if you enable minifyEnabled
-            )
+            applicationIdSuffix = getGitUserSuffix()
+            signingConfig signingConfigs.release
+            isMinifyEnabled = false
         }
         debug {
             applicationIdSuffix = ".debug"
