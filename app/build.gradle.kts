@@ -9,9 +9,9 @@ fun getGitUserSuffix(): String {
         val remoteUrl = process.inputStream.bufferedReader().readText().trim()
         process.waitFor()
         // Regex for git@github.com:owner/repo and https://github.com/owner/repo capturing the owner
-        val regex = Regex("[:/]([^/]+)/[^/]+\\.git$")
+        val regex = Regex("[:/]([^/]+)/[^/]+(\\.git)?/?$")
         val matchResult = regex.find(remoteUrl)
-        return matchResult?.groups?.get(1)?.value?.toLowerCase()?.let { ".$it" } ?: ""
+        return matchResult?.groups?.get(1)?.value?.lowercase()?.let { ".$it" } ?: ".local"
     } catch (e: Exception) {
         println("Could not get git user: ${e.message}")
         return ".local"
@@ -26,7 +26,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
