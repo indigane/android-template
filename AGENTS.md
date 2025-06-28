@@ -20,5 +20,6 @@ SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
 yes | "$SDKMANAGER" --sdk_root="$ANDROID_SDK_ROOT" --licenses
 "$SDKMANAGER" --sdk_root="$ANDROID_SDK_ROOT" "platform-tools" "platforms;android-$TARGET_API_LEVEL" "build-tools;$TARGET_API_LEVEL.0.0"
 cd "$PROJECT_DIRECTORY"
+chmod +x gradlew
 ./gradlew assembleDebug --stacktrace
 ```
