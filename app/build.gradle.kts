@@ -49,7 +49,7 @@ android {
     buildTypes {
         getByName("release") {
             applicationIdSuffix = getGitUserSuffix()
-            signingConfig = signingConfigs.release
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
         }
         getByName("debug") {
