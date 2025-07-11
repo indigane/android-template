@@ -36,7 +36,7 @@ android {
         includeInBundle = false
     }
     signingConfigs {
-        release {
+        create("release") {
             if (System.getenv("KEYSTORE_PATH") != null) {
                 storeFile = file(System.getenv("KEYSTORE_PATH"))
                 storePassword = System.getenv("KEYSTORE_PASSWORD")
@@ -47,12 +47,12 @@ android {
         }
     }
     buildTypes {
-        release {
+        getByName("release") {
             applicationIdSuffix = getGitUserSuffix()
             signingConfig = signingConfigs.release
             isMinifyEnabled = false
         }
-        debug {
+        getByName("debug") {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             isMinifyEnabled = false
