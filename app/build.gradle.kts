@@ -19,7 +19,7 @@ fun getGitUserSuffix(): String {
 }
 
 android {
-    namespace = "home.replace_me"
+    namespace = "home.app"
     compileSdk = 35
     defaultConfig {
         applicationId = "home.replace_me"
