@@ -34,8 +34,8 @@ jobs:
       #   run: ./gradlew lintDebug
 
       # Optional: Run Unit Tests (if you add any later)
-      # - name: Run Unit Tests
-      #   run: ./gradlew testDebugUnitTest
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest
 
       # Optional: Upload Debug APK as an artifact
       - name: Upload Debug APK
