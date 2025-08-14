@@ -48,7 +48,7 @@ You MUST NOT use code comments to communicate with a **single** user or another 
   // The downstream service has a strict 300ms SLA, so our timeout must be lower.
   val connectionTimeout = 250L
   ```
-* Comments clarifying complex code that **can not* otherwise be made more readable.
+* Comments clarifying complex code that **can not** otherwise be made more readable.
   ```kt
   // Control code for the Z-400 printer API.
   // Position 1: 'P'=Portrait, 'L'=Landscape
