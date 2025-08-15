@@ -62,6 +62,23 @@ You MUST NOT use code comments to communicate with a **single** user or another 
   val user = legacyDatabase.fetchUser(userId)
   ```
 
+### Refactoring
+
+This codebase may be primarily developed by AI agents. It may contain suboptimal patterns or be stuck in a local minimum that iterative fixes cannot easily resolve.
+
+If you determine that a significant refactoring of existing code is a necessary prerequisite to successfully and robustly implement a requested change or fix, you are empowered to perform this refactoring first. Your plan must explicitly state the rationale for the refactoring.
+
+However, this must be exercised with discipline. Your goal is to improve the long-term health and maintainability of the codebase, not to rewrite code for purely preferential reasons.
+
+Perform the refactoring in a separate, atomic commit from the feature implementation or bug fix.
+
+You should consider refactoring under the following circumstances:
+
+* Impediment to Implementation: The current structure makes the requested feature or fix difficult, convoluted, or impossible to implement cleanly.
+* Improving Clarity: The code relevant to your task is difficult to understand, making it hard to reason about the impact of your changes. Refactoring to clarify names, simplify control flow, or break down large functions is encouraged.
+* Reducing Brittleness: The existing design is fragile, and you predict that the new change would likely break unrelated functionality or require extensive, complex modifications.
+* Enabling Testability: The code is not testable in its current state, and a refactor is required to introduce unit tests before making further changes.
+
 ## Git Workflow
 
 Follow these guidelines to ensure a clean and understandable project history.
