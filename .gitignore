@@ -15,9 +15,6 @@
 # Android Studio captures (screenshots, etc.)
 captures/
 
-# User-specific Gradle settings
-.gradle/
-
 # Local configuration file (SDK path, etc.)
 local.properties
 
@@ -31,18 +28,16 @@ local.properties
 # Gradle
 # -----------------------------------------------
 
-# Gradle wrapper
+# User-specific Gradle settings
 .gradle/
+
+# Gradle wrapper
 !gradle/wrapper/gradle-wrapper.jar
 
 # Built application files
 **/build/
 */build/
-!.gradle/
 .build/
-
-# If using Gradle output caching
-.gradle/
 
 # -----------------------------------------------
 # Android
@@ -136,11 +131,6 @@ Temporary Items
 
 # macOS folder attributes
 .com.apple.timemachine.donotpresent
-.com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
 
 # -----------------------------------------------
 # Windows
@@ -189,7 +179,6 @@ $RECYCLE.BIN/
 *.code-workspace
 
 # NDK-related
-obj/
 obj/local/
 
 # Signing credentials (don't commit these; keep off-repo or in secure vault)
@@ -212,7 +201,7 @@ firebase_crashlytics_build_id.json
 */build/compose-scrap-build-cache*
 
 # Generated protobuf files (if using Protobuf)
-**/*.pb.jav a
+**/*.pb.java
 
 # Google Services (e.g. google-services.json)
 # If you store this in a secure location and don't want to commit.
