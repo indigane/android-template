@@ -99,7 +99,7 @@ If at any point you need to set up the environment manually, you can follow the 
 ```sh
 #!/usr/bin/env bash
 set -eux
-TARGET_API_LEVEL="35"
+TARGET_API_LEVEL="36"
 CMDLINE_ZIP="commandlinetools-linux-13114758_latest.zip"
 export ANDROID_HOME="$HOME/android-sdk"
 export ANDROID_SDK_ROOT="$HOME/android-sdk"
